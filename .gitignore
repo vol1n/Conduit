@@ -1,0 +1,71 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+xcuserdata/
+*.xcworkspace
+Package.resolved
+
+# Xcode
+DerivedData/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Build artifacts
+*.o
+*.lo
+*.la
+*.al
+.libs/
+*.so
+*.dylib
+*.a
+
+# Swift
+*.swiftmodule
+*.swiftdoc
+*.playground
+.swiftpm/config/registries.json
+.swiftpm/xcode/package.xcworkspace/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+.test/
+*.profraw
+*.profdata
+
+# Documentation
+docs/.build/
+
+# Credentials
+.netrc
+*.pem
+*.key
+
+# Temporary files
+*~
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# SQLite db's (for demos)
+*.db
