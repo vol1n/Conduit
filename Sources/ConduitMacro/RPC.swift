@@ -339,7 +339,7 @@ public struct RPCMacro: PeerMacro {
 
             return """
                 public enum \(raw: protocolName)Routes {
-                    public static func __conduit_registerRoutes<Builder: RPCRouteBuilder>(
+                    public static func registerRoutes<Builder: RPCRouteBuilder>(
                         impl: any \(raw: protocolName),
                         builder: inout Builder
                     ) {

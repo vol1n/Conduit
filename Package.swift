@@ -36,9 +36,5 @@ let package = Package(
                 "Core",
             ]
         ),
-        .testTarget(
-            name: "conduitTests",
-            dependencies: ["Conduit"]
-        ),
     ]
 )

@@ -151,7 +151,7 @@ struct ContentView: View {
         errorMessage = nil
 
         do {
-            todos = try await api.listTodos(completed: filter.queryValue, config: nil)
+            todos = try await api.listTodos(completed: filter.queryValue)
         } catch {
             errorMessage = "Failed to load todos: \(error.localizedDescription)"
             showError = true
@@ -168,7 +168,7 @@ struct ContentView: View {
 
         do {
             let request = CreateTodoRequest(title: title)
-            let newTodo = try await api.createTodo(body: request, config: nil)
+            let newTodo = try await api.createTodo(body: request)
 
             // Optimistically add to list
             todos.insert(newTodo, at: 0)
@@ -191,7 +191,7 @@ struct ContentView: View {
 
         do {
             let request = UpdateTodoRequest(completed: !todo.completed)
-            let updated = try await api.completeTodo(body: request, id: todo.id,  config: nil)
+            let updated = try await api.completeTodo(body: request, id: todo.id)
 
             // Update with server response
             if let index = todos.firstIndex(where: { $0.id == todo.id }) {

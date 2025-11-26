@@ -49,7 +49,7 @@ let service = TodoService(store: store)
 var router = Router()
 var builder = HummingbirdRouteBuilder(router: router)
 
-TodoAPIRoutes.__conduit_registerRoutes(impl: service, builder: &builder)
+TodoAPIRoutes.registerRoutes(impl: service, builder: &builder)
 router = builder.router
 
 // Create and run the application
