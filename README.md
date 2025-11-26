@@ -36,7 +36,7 @@ struct StringService: StringAPI {
 // 3. Mount routes (Hummingbird example)
 var router = Router()
 var builder = HummingbirdRouteBuilder(router: router)
-StringAPIRoutes.__conduit_registerRoutes(impl: StringService(), builder: &builder)
+StringAPIRoutes.registerRoutes(impl: StringService(), builder: &builder)
 router = builder.router
 
 // 4. Use the client (iOS, macOS, anywhere)
