@@ -17,6 +17,7 @@ Conduit is a Swift macro-based framework that generates both HTTP client and ser
 
 ```swift
 // 1. Define your API (in Shared package)
+// Shared/Sources/API.swift
 @RPC
 public protocol StringAPI: Sendable {
     @GET("/reverse")
@@ -24,6 +25,7 @@ public protocol StringAPI: Sendable {
 }
 
 // 2. Implement the server
+// Server/sources/main.swift
 struct StringService: StringAPI {
     func reverse(input: String) async throws -> ReverseResponse {
         return ReverseResponse(
@@ -40,37 +42,10 @@ StringAPIRoutes.registerRoutes(impl: StringService(), builder: &builder)
 router = builder.router
 
 // 4. Use the client (iOS, macOS, anywhere)
+// YourApp/ContentView.swift 
 let client = StringAPIClient.live(baseUrl: "http://localhost:8080")
 let response = try await client.reverse(input: "hello")
 // response.reversed == "olleh"
-```
-
-## What Gets Generated
-
-From the `@RPC` macro:
-
-1. **Client struct** (`StringAPIClient`) - URLSession-based HTTP client
-2. **Parameter structs** (`StringAPIParams.*`) - Type-safe parameter validation
-3. **Routes enum** (`StringAPIRoutes`) - Server route registration
-
-## Architecture
-
-```
-Conduit/
-├── Sources/
-│   ├── Conduit/              # Core framework & macros
-│   ├── ConduitMacro/         # Macro implementation
-│   ├── Core/                 # Shared types
-│   └── MacroHelpers/       # Macro utilities
-├── ConduitServer/            # Server adapters (separate package)
-│   └── Sources/
-│       └── ConduitServer/
-│           └── HummingbirdRouteBuilder.swift
-└── ConduitDemo/              # Demo applications
-    ├── Shared/             # API definitions
-    ├── Server/             # Hummingbird server
-    ├── iOSClient/          # Command-line client
-    └── ConduitDemoApp/       # iOS app
 ```
 
 ## Installation
@@ -81,15 +56,15 @@ Add Conduit to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/conduit.git", from: "1.0.0")
+    .package(url: "https://github.com/vol1n/Conduit.git", from: "0.1.0")
 ],
 targets: [
     .target(
-        name: "YourTarget",
+        name: "YourPackage",
         dependencies: [
-            .product(name: "Conduit", package: "Conduit")
+            .product(name: "Conduit", package: "conduit")
         ]
-    )
+    ),
 ]
 ```
 
@@ -141,7 +116,7 @@ struct TodoService: TodoAPI {
 let service = TodoService()
 var router = Router()
 var builder = HummingbirdRouteBuilder(router: router)
-TodoAPIRoutes.__conduit_registerRoutes(impl: service, builder: &builder)
+TodoAPIRoutes.registerRoutes(impl: service, builder: &builder)
 
 let app = Application(router: builder.router)
 try await app.runService()
@@ -175,15 +150,11 @@ curl 'http://localhost:8080/reverse?input=hello'
 open ConduitDemo/ConduitDemoApp/ConduitDemoApp.xcodeproj
 ```
 
-See [ConduitDemo/README.md](./ConduitDemo/README.md) for detailed demo instructions.
-
 ## Supported Features
 
 ### HTTP Methods
 - ✅ `@GET` - Query parameters from function arguments
 - ✅ `@POST` - Body from `body:` parameter, query params from other args
-- 🚧 `@PUT` - Coming soon
-- 🚧 `@DELETE` - Coming soon
 
 ### Path Parameters
 ```swift
@@ -227,20 +198,10 @@ public protocol RPCRouteBuilder {
 Included adapters:
 - ✅ **Hummingbird** - `ConduitServer` package
 
-## Documentation
-
-- [Architecture Overview](./ARCHITECTURE.md) - How Conduit works internally
-- [Demo Guide](./ConduitDemo/README.md) - Running the demo applications
-- [iOS App Setup](./ConduitDemo/ConduitDemoApp/SETUP.md) - Setting up the iOS app
-
 ## Contributing
 
 Contributions welcome! Please open an issue or PR.
 
 ## License
 
-MIT License - see LICENSE file for details
-
-## Acknowledgments
-
-Built with Swift Macros and inspired by modern RPC frameworks like tRPC and Connect.
+MIT License
